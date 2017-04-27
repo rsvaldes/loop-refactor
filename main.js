@@ -12,50 +12,37 @@ Run the command 'mocha' to test. Tests check for expected output and absence of 
 
 module.exports = {
 
-  sum: (arr, base) => {
-    let sum = base;
-    for (var i = 0; i < arr.length; i++){
-      sum += arr[i];
-    }
-    return sum;
-  },
+    sum: (arr, base) => {
+        var result = arr.reduce(function(a, b) {
+            return a + b;
+        }, base);
+        return result;
+    },
 
-  someObjsContainProp: (arr, prop) => {
-    for(var i = 0; i < arr.length; i++){
-      if(arr[i].hasOwnProperty(prop)){
-        return true;
-      }
-    }
-    return false;
-  },
+    someObjsContainProp: (arr, prop) => arr.some(function(element) {
+        return element.hasOwnProperty(prop);
+    }),
 
-  convertNameArrayToObject: (arr) => {
-    let nameObj = [];
-    for(var i = 0; i < arr.length; i++){
-      let obj = {};
-      obj.first = arr[i][0];
-      obj.last = arr[i][1];
-      nameObj.push(obj);
-    }
-    return nameObj;
-  },
 
-  objContainsProp: (arr, prop) => {
-    for (var i = 0; i < arr.length; i++){
-      if(!arr[i].hasOwnProperty(prop)){
-        return false;
-      }
-    }
-    return true;
-  },
 
-  stringMatch: (arr, str) => {
-    let matches = [];
-    for(var i = 0; i < arr.length; i++){
-      if (arr[i].includes(str)){
-        matches.push(arr[i]);
-      }
-    }
-    return matches;
-  },
-};
+    convertNameArrayToObject: (arr) =>
+        arr.map(function(element) {
+          let obj = {};
+          obj.first = element[0];
+          obj.last = element[1];
+          return obj;
+        }),
+
+
+    objContainsProp: (arr, prop) =>
+    arr.every(function(element) {
+      return element.hasOwnProperty(prop);
+    }),
+
+
+
+    stringMatch: (arr, str) =>
+        arr.filter(function(element) {
+          return element.includes(str);
+        }),
+      };
